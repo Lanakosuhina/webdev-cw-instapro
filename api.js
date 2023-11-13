@@ -4,6 +4,45 @@ const personalKey = "prod";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
 
+export function getUserPosts({ userId, token }) {
+  return fetch( baseHost + `/user-posts/${userId}`, {
+    method: "GET",
+    headers: {
+      Authorization: token,
+    },
+  })
+  .then((response) => {
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      throw Error('Ошибка');
+    }
+  })
+  .then((data) => {
+    return data.posts;
+  })
+}
+
+export function postPosts({ description, imageUrl, token }) {
+  return fetch( postsHost, {
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+    body: JSON.stringify({
+      description,
+      imageUrl,
+    }),
+  })
+  .then((response) => {
+    if (response.status === 201) {
+      return response.json();
+    } else {
+      throw Error("Ошибка");
+    }
+  })
+}
+
 export function getPosts({ token }) {
   return fetch(postsHost, {
     method: "GET",
