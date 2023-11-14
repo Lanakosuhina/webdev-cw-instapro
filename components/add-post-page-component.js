@@ -48,7 +48,4 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
       },
     });
   }
-
-  // заменить названия и понять логику 
-// сделать дургие задания 
 }

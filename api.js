@@ -4,8 +4,8 @@ const personalKey = "prod";
 const baseHost = "https://webdev-hw-api.vercel.app";
 const postsHost = `${baseHost}/api/v1/${personalKey}/instapro`;
 
-export function getUserPosts({ userId, token }) {
-  return fetch( baseHost + `/user-posts/${userId}`, {
+export function getUserPosts({ id, token }) {
+  return fetch( postsHost + "/user-posts/" + id, {
     method: "GET",
     headers: {
       Authorization: token,
@@ -62,7 +62,6 @@ export function getPosts({ token }) {
     });
 }
 
-// https://github.com/GlebkaF/webdev-hw-api/blob/main/pages/api/user/README.md#%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%D1%81%D1%8F
 export function registerUser({ login, password, name, imageUrl }) {
   return fetch(baseHost + "/api/user", {
     method: "POST",
