@@ -70,8 +70,8 @@ export const goToPage = (newPage, data) => {
     if (newPage === USER_POSTS_PAGE) {
       page = LOADING_PAGE;
       renderApp();
-      
-      return getUserPosts({ id: data.userId, token: getToken() })
+      console.log(data.id);
+      return getUserPosts({ id: data.id, token: getToken() }) 
       .then((newPosts) => {
         page = USER_POSTS_PAGE;
         posts = newPosts;
@@ -134,7 +134,7 @@ const renderApp = () => {
 if (page === USER_POSTS_PAGE) {
   renderUserPostsPageComponent({
     appEl,
-  });
+      });
 };
 
 goToPage(POSTS_PAGE);

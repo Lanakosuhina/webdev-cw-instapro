@@ -48,11 +48,10 @@ export function renderUserPostsPageComponent({ appEl }) {
   });
 
   for (let userEl of document.querySelectorAll(".post-header")) {
-    userEl.addEventListener("click", () => {
-      console.log(userEl.dataset.id);
+  userEl.addEventListener("click", () => {
       goToPage(USER_POSTS_PAGE, {
-        id: userEl.dataset.userId,
-      });
-    });
+  id: userEl.dataset.userId,
+  });
+  });
   }
 }
