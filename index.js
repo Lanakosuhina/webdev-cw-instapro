@@ -71,6 +71,7 @@ export const goToPage = (newPage, data) => {
       page = LOADING_PAGE;
       renderApp();
       console.log(data.id);
+
       return getUserPosts({ id: data.id, token: getToken() }) 
       .then((newPosts) => {
         page = USER_POSTS_PAGE;
@@ -89,7 +90,7 @@ export const goToPage = (newPage, data) => {
   throw new Error("страницы не существует");
 };
 
-const renderApp = () => {
+export const renderApp = () => {
   const appEl = document.getElementById("app");
   if (page === LOADING_PAGE) {
     return renderLoadingPageComponent({
@@ -130,11 +131,12 @@ const renderApp = () => {
     });
   }
 
+  if (page === USER_POSTS_PAGE) {
+    renderUserPostsPageComponent({
+      appEl,
+        });
+  };
 }
-if (page === USER_POSTS_PAGE) {
-  renderUserPostsPageComponent({
-    appEl,
-      });
-};
+
 
 goToPage(POSTS_PAGE);

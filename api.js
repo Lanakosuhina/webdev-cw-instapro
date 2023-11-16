@@ -15,7 +15,7 @@ export function getUserPosts({ id, token }) {
     if (response.status === 200) {
       return response.json();
     } else {
-      throw Error('Ошибка');
+      throw Error('Нет авторизации');
     }
   })
   .then((data) => {
@@ -38,7 +38,7 @@ export function postPosts({ description, imageUrl, token }) {
     if (response.status === 201) {
       return response.json();
     } else {
-      throw Error("Ошибка");
+      throw Error("Вы не загрузили фотографию или не добавили описание");
     }
   })
 }
@@ -105,4 +105,35 @@ export function uploadImage({ file }) {
   }).then((response) => {
     return response.json();
   });
+}
+export function addLike({ id, token }) {
+  return fetch(postsHost + `/${id}/like`, { 
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        throw new Error("Нет авторизации");
+      }
+
+      return response.json();
+    })
+}
+
+export function addDislike({ id, token }) {
+  return fetch(postsHost + `/${id}/dislike`, { 
+    method: "POST",
+    headers: {
+      Authorization: token,
+    },
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        throw new Error("Нет авторизации");
+      }
+
+      return response.json();
+    })
 }
