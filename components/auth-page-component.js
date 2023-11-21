@@ -83,14 +83,24 @@ export function renderAuthPageComponent({ appEl, setUser }) {
         const password = document.getElementById("password-input").value;
 
         if (!login) {
-          alert("Введите логин");
+          login.classList.add("error-input");
           return;
-        }
+        } 
+        // else {
+        //   setTimeout(() => {
+        //   login.classList.remove("error-input");
+        // }, 2000)
+        // }
 
         if (!password) {
-          alert("Введите пароль");
+          password.classList.add("error-input");
           return;
-        }
+        } 
+        // else {
+        //   setTimeout(() => {
+        //   password.classList.remove("error-input");
+        // }, 2000)
+        // }
 
         loginUser({
           login: login,
@@ -107,19 +117,19 @@ export function renderAuthPageComponent({ appEl, setUser }) {
         const login = document.getElementById("login-input").value;
         const name = document.getElementById("name-input").value;
         const password = document.getElementById("password-input").value;
-        if (!name) {
+               if (!name) {
           alert("Введите имя");
           return;
-        }
+                }
         if (!login) {
           alert("Введите логин");
           return;
-        }
+                }
 
         if (!password) {
           alert("Введите пароль");
           return;
-        }
+                }
 
         if (!imageUrl) {
           alert("Не выбрана фотография");

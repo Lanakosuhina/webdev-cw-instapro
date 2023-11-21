@@ -27,7 +27,7 @@ export function renderUploadImageComponent({ element, onImageUrlChange }) {
       }
   </div>
 `;
-
+console.log(document.querySelector(".file-upload-remove-button"));
     const fileInputElement = element.querySelector(".file-upload-input");
 
     fileInputElement?.addEventListener("change", () => {
