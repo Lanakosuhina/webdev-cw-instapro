@@ -46,6 +46,7 @@
   margin: 0;
 }
 
+
 .post-header {
   display: flex;
   flex-direction: row;
@@ -63,9 +64,7 @@
 }
 
 .post-image-container {
-  margin-left: -20px;
-  margin-right: -20px;
-  height: 500px;
+  height: 100%;
   display: flex;
   justify-content: center;
   background-color: #e0e0e0;
@@ -218,3 +217,7 @@
   width: 100%;
   text-align: center;
 }
+.error-input {
+  background-color: red;
+}	
+
