@@ -70,15 +70,14 @@ export const goToPage = (newPage, data) => {
     if (newPage === USER_POSTS_PAGE) {
       page = LOADING_PAGE;
       renderApp();
-      console.log(user.token);
 
-      return getUserPosts({ id: data.id, token: getToken() }) 
-      .then((newPosts) => {
-        page = USER_POSTS_PAGE;
-        posts = newPosts;
-        return renderApp();
-    })
-    
+      return getUserPosts({ id: data.id, token: getToken() }).then(
+        (newPosts) => {
+          page = USER_POSTS_PAGE;
+          posts = newPosts;
+          return renderApp();
+        }
+      );
     }
 
     page = newPage;
@@ -117,10 +116,9 @@ export const renderApp = () => {
     return renderAddPostPageComponent({
       appEl,
       onAddPostClick({ description, imageUrl }) {
-        postPosts({ description, imageUrl, token: getToken() })
-        .then(() => {
+        postPosts({ description, imageUrl, token: getToken() }).then(() => {
           goToPage(POSTS_PAGE);
-        })
+        });
       },
     });
   }
@@ -134,9 +132,8 @@ export const renderApp = () => {
   if (page === USER_POSTS_PAGE) {
     renderUserPostsPageComponent({
       appEl,
-        });
-  };
-}
-
+    });
+  }
+};
 
 goToPage(POSTS_PAGE);

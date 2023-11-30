@@ -77,30 +77,22 @@ export function renderAuthPageComponent({ appEl, setUser }) {
 
     document.getElementById("login-button").addEventListener("click", () => {
       setError("");
+      const login = document.getElementById("login-input");
+      const name = document.getElementById("name-input");
+      const password = document.getElementById("password-input");
 
       if (isLoginMode) {
-        const login = document.getElementById("login-input").value;
-        const password = document.getElementById("password-input").value;
+        if (login.value === "" || password.value === "") {
+          setError("Введите данные")
+          login.style.backgroundColor = "red";
+          password.style.backgroundColor = "red";
+          setTimeout(() => {
+            login.style.backgroundColor = "#e8e8e8";
+            password.style.backgroundColor = "#e8e8e8";
+          }, 2000);
+          return;        
+        }
 
-        if (!login) {
-          login.classList.add("error-input");
-          return;
-        } 
-        // else {
-        //   setTimeout(() => {
-        //   login.classList.remove("error-input");
-        // }, 2000)
-        // }
-
-        if (!password) {
-          password.classList.add("error-input");
-          return;
-        } 
-        // else {
-        //   setTimeout(() => {
-        //   password.classList.remove("error-input");
-        // }, 2000)
-        // }
 
         loginUser({
           login: login,
@@ -114,22 +106,24 @@ export function renderAuthPageComponent({ appEl, setUser }) {
             setError(error.message);
           });
       } else {
-        const login = document.getElementById("login-input").value;
-        const name = document.getElementById("name-input").value;
-        const password = document.getElementById("password-input").value;
-               if (!name) {
+        if (!name) {
           alert("Введите имя");
           return;
-                }
+        }
         if (!login) {
           alert("Введите логин");
           return;
-                }
+        }
 
-        if (!password) {
+        if (!password === "") {
+          //  password.classList.add("error-input");
           alert("Введите пароль");
           return;
-                }
+        } // else {
+        //     setTimeout(() => {
+        //     password.classList.remove("error-input");
+        //   }, 2000)
+        //   }
 
         if (!imageUrl) {
           alert("Не выбрана фотография");

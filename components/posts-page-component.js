@@ -24,7 +24,7 @@ export function toggleLike() {
 
               likeButtonElement.innerHTML = `<img src="./assets/images/like-not-active.svg">`;
 
-              renderLikeElement({ responseData });
+              renderLikeElement({ responseData, likeButtonElement });
               likeButtonElement.dataset.isLiked = "false";
             })
           : addLike({ id, token })
@@ -32,76 +32,97 @@ export function toggleLike() {
 
               likeButtonElement.innerHTML = `<img src="./assets/images/like-active.svg">`;
 
-              renderLikeElement({ responseData });
+              renderLikeElement({ responseData, likeButtonElement });
               likeButtonElement.dataset.isLiked = "true";
             });
       }
     });
   }
 }
+// const renderLikeElement = ({ responseData }) => {
+//   const postLikesText = document.querySelector(".post-likes-text");
+//   const likes = responseData.post.likes;
 
-const renderLikeElement = ({ responseData }) => {
+//   let likesText = "0";
 
-  const postLikesText = document.querySelector(".post-likes-text");
-  postLikesText.innerHTML = `<p class="post-likes-text">
-    Нравится: <strong>${
-      responseData.post.likes.length < 2
-        ? `<strong>${
-            0 === responseData.post.likes.length
-              ? "0"
-              : responseData.post.likes.map(({ name: post }) => post).join(", ")
-          }</strong>`
-        : `<strong>${
-            responseData.post.likes[
-              Math.floor(Math.random() * responseData.post.likes.length)
-             ].name
-          }</strong>
-      и <strong>еще ${(responseData.post.likes.length - 1).toString()}</strong>`
-    }
-    </strong>
-  </p>`;
+//   if (likes.length > 0) {
+//     likesText = likes.length < 2
+//       ? likes.map(({ name: post }) => post).join(", ")
+//       : `${likes[Math.floor(Math.random() * likes.length)].name} и еще ${likes.length - 1}`;
+//   }
+
+//   postLikesText.innerHTML = `<p class="post-likes-text">Нравится: <strong>${likesText}</strong></p>`;
+// };
+
+const renderLikeElement = ({ responseData, likeButtonElement }) => { 
+  const postLikesText = likeButtonElement.closest(".post").querySelector(".post-likes-text"); // ищем выше по дереву 
+  const likesCount = responseData.post.likes.length;
+
+  let likesText = "";
+  if (likesCount === 0) {
+    likesText = `Нравится: <strong>0</strong>`;
+  } else if (likesCount === 1) {
+  //  JSON.stringify(responseData.post.likes[responseData.post.likes.length - 1].name) === "{}"
+    likesText = `Нравится: <strong>${JSON.stringify(responseData.post.likes[0].name) === "{}" ? "Кому-то" : responseData.post.likes[0].name}</strong>` ;
+  } else {
+    const otherLikesCount = likesCount - 1;
+    const otherLikesText = `<strong>еще ${otherLikesCount.toString()}</strong>`;
+    likesText = `Нравится: <strong>${JSON.stringify(responseData.post.likes[responseData.post.likes.length - 1].name) === "{}" ? "Кому-то" : responseData.post.likes[length - 1].name}</strong> и ${otherLikesText}`;
+  }
+
+  postLikesText.innerHTML = `<p>${likesText}</p>`;
 };
 
 
 export function renderPostsPageComponent({ appEl }) {
   console.log("Актуальный список постов:", posts);
 
-  const postsHtml = posts
-    .map((post, index) => {
-      return `
-    <li class="post">
-    <div class="post-header" data-user-id="${post.user.id}">
-      <img src="${post.user.imageUrl}" class="post-header__user-image">
-      <p class="post-header__user-name">${post.user.name}</p>
-    </div>
-    <div class="post-image-container">
-      <img class="post-image" src="${post.imageUrl}">
-    </div>
-    <div class="post-footer">
-    <div class="post-likes">
-      <button data-post-id="${post.id}" data-isLiked="${
-        post.isLiked
-      }" class="like-button" data-index=${index}>
-        <img src="${post.isLiked
-            ? "./assets/images/like-active.svg"
-            : "./assets/images/like-not-active.svg"
-        }">
-      </button>
-      <p class="post-likes-text">
-      Нравится: <strong>${post.likes.length}</strong>
-    </p>
-    </div>
-    </div>
-    <p class="post-text">
-      <span class="user-name">${post.user.name}</span>
-      ${post.description}
-    </p>
-    <p class="post-date">
-    ${formatDate(post.createdAt)}
-    </p>
-  </li>`;
-    })
-    .join('');
+  const postsHtml = posts 
+  .map((post, index) => { 
+   let likesText;
+    if (post.likes.length === 0) { 
+      likesText = `Нравится: <strong>0</strong>`; 
+    } else if (post.likes.length === 1) { 
+      likesText = `Нравится: <strong>${JSON.stringify(post.likes[0].name) === "{}" ? "Кому-то" : post.likes[0].name}</strong>`; 
+    } else { 
+      const otherLikesCount = post.likes.length - 1; 
+      const otherLikesText = `<strong>еще ${otherLikesCount.toString()}</strong>`; 
+      likesText = `Нравится: <strong>${JSON.stringify(post.likes[post.likes.length - 1].name) === "{}" ? "Кому-то" : post.likes[post.likes.length - 1].name}</strong> и ${otherLikesText}`; 
+    }
+    return `  
+  <li class="post"> 
+  <div class="post-header" data-user-id="${post.user.id}"> 
+    <img src="${post.user.imageUrl}" class="post-header__user-image"> 
+    <p class="post-header__user-name">${post.user.name}</p> 
+  </div> 
+  <div class="post-image-container"> 
+    <img class="post-image" src="${post.imageUrl}"> 
+  </div> 
+  <div class="post-footer"> 
+  <div class="post-likes"> 
+    <button data-post-id="${post.id}" data-is-liked="${ 
+      post.isLiked 
+    }" class="like-button" data-index=${index}> 
+      <img src="${post.isLiked 
+          ? "./assets/images/like-active.svg" 
+          : "./assets/images/like-not-active.svg" 
+      }"> 
+    </button> 
+    <p class="post-likes-text"> 
+    ${likesText}
+  </p> 
+  </div> 
+  </div> 
+  <p class="post-text"> 
+    <span class="user-name">${post.user.name}</span> 
+    ${post.description} 
+  </p> 
+  <p class="post-date"> 
+  ${formatDate(post.createdAt)} 
+  </p> 
+</li>`; 
+  }) 
+  .join('');
 
   const appHtml = `
               <div class="page-container">
