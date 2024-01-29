@@ -67,7 +67,8 @@ const renderLikeElement = ({ responseData, likeButtonElement }) => {
   } else {
     const otherLikesCount = likesCount - 1;
     const otherLikesText = `<strong>еще ${otherLikesCount.toString()}</strong>`;
-    likesText = `Нравится: <strong>${JSON.stringify(responseData.post.likes[responseData.post.likes.length - 1].name) === "{}" ? "Кому-то" : responseData.post.likes[length - 1].name}</strong> и ${otherLikesText}`;
+    likesText = `Нравится: <strong>${JSON.stringify(responseData.post.likes[responseData.post.likes.length - 1].name) === "{}" 
+    ? "Кому-то" : responseData.post.likes[length - 1].name}</strong> и ${otherLikesText}`;
   }
 
   postLikesText.innerHTML = `<p>${likesText}</p>`;

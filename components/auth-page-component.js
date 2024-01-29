@@ -77,12 +77,12 @@ export function renderAuthPageComponent({ appEl, setUser }) {
 
     document.getElementById("login-button").addEventListener("click", () => {
       setError("");
-      const login = document.getElementById("login-input");
-      const name = document.getElementById("name-input");
-      const password = document.getElementById("password-input");
+      const login = document.getElementById("login-input").value;
+      const name = document.getElementById("name-input").value;
+      const password = document.getElementById("password-input").value;
 
       if (isLoginMode) {
-        if (login.value === "" || password.value === "") {
+        if (login === "" || password === "") {
           setError("Введите данные")
           login.style.backgroundColor = "red";
           password.style.backgroundColor = "red";
@@ -116,15 +116,9 @@ export function renderAuthPageComponent({ appEl, setUser }) {
         }
 
         if (!password === "") {
-          //  password.classList.add("error-input");
           alert("Введите пароль");
           return;
-        } // else {
-        //     setTimeout(() => {
-        //     password.classList.remove("error-input");
-        //   }, 2000)
-        //   }
-
+        }
         if (!imageUrl) {
           alert("Не выбрана фотография");
           return;
